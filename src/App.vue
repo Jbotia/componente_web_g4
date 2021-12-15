@@ -1,20 +1,18 @@
-<!-- No he movido nada del login, signup ni Home, están igual que como en los .rar de misiontic-->
-
 <template>
   <div id="app" class="app">
 
     <div class="header">
-      <img src="assets/hospedajeImg.png" alt="" />
+      <img src="./assets/hospedajeImg.png" alt="" />
       <h1> Hospedaje M-TIC </h1>
       
       
       <nav>
         <button v-if="is_auth" v-on:click="loadHome"> Inicio </button>
-        <button v-if="is_auth" v-on:click="loadPerfil"> Perfil </button>
+        <button v-if="is_auth" v-on:click="loadBooking"> Historial </button>
         <button v-if="is_auth" v-on:click="logOut"> Cerrar Sesión </button>
         <button v-if="!is_auth" v-on:click="loadLogIn" > Iniciar Sesión </button>
         <button v-if="!is_auth" v-on:click="loadSignUp" > Registrarse </button>
-        <button v-if="!is_auth" v-on:click="loadSearch" > Buscar </button> <!--botón temporal para cargar InmueblesCiudad para probarlo -->
+        <button v-if="!is_auth" v-on:click="loadSearch" > Buscar </button> 
       </nav>
     </div>
     
@@ -30,7 +28,7 @@
     
 
     <div class="footer">
-      <h2>Hospedaje M-TIC</h2>
+      <h2>-- MisionTic Proyecto Ciclo 4 Grupo 4 -- </h2>
     </div>
 
   </div>
@@ -57,7 +55,7 @@ export default {
       this.is_auth = localStorage.getItem("isAuth") || false;
 		
 			if (this.is_auth == false)      
-        this.$router.push({ name: "loadSearch" }); //aquí debería poder cargar el vue de filtrar inmuebles por ciudad
+        this.$router.push({ name: "todosInmuebles" }); 
       else
         this.$router.push({ name: "home" });
     },
@@ -92,6 +90,9 @@ export default {
 			this.$router.push({ name: "buscarPorCiudad" });
 		},
 
+    loadBooking: function () {
+			this.$router.push({ name: "misReservas" });
+		},
     
 
     logOut: function () {
@@ -116,21 +117,22 @@ export default {
     margin: 0 0 0 0;
   }
   
-  img {
-    display:block;
-    width: 8%;
+  img {    
+    width: 100px;
+    height:100px;
   }
   .header{
     margin: 0%;
     padding: 0;
     width: 100%;
-    height: 10vh; 
+    height: 6vh; 
     min-height: 100px;
-    background-color: #a6afb9 ;
+    background-color: #cad1d8 ;
     color:#414346;
     display: flex;
     justify-content:space-around;
     align-items:center;
+    
   }
   .header title{
     width: 20%;
@@ -139,7 +141,7 @@ export default {
     font-family:cursive;
     color:#414346
   }
-  
+
   .header nav {
     height: 100%;
     width: 20%;
@@ -148,6 +150,7 @@ export default {
     align-items: center;
     font-size: 20px;
   }
+
   .header nav button{
     color:#414346;
     background: none;
@@ -155,21 +158,21 @@ export default {
     border-radius: 5px;
     padding: 10px 20px;
   }
+
   .header nav button:hover{
     color: #283747;
     background: #797c80;
     border: 1px solid #E5E7E9;
-  }
-  
+  }  
+
   .main-component{
-    height: 75vh;
+    min-height: 420px;
     margin: 0%;
-    padding: 0%;
-    background: #3d8a5f ;
+    padding: 0;
     text-align:center;
-    line-height: 0.5;
-  }
-  
+    line-height: 1.5;
+  }  
+
   .main-component h3 {
     color: gainsboro;
     text-align:center;
@@ -179,44 +182,20 @@ export default {
     height: 20%; 
     margin-bottom: 1px;
   }
-  .main-component button {
-    color: rgb(27, 26, 26);
-    background: coral;
-    border: 2px solid  darkgreen;
-    border-radius: 10%;
-    width: 10%;
-    height: 7%; 
-    margin-top: 1px;
-    font-weight:700;
-  }
   
-  .main-component button:hover {
-    color: rgb(27, 26, 26);
-    background: rgb(51, 179, 61);
-    border: 2px solid  darkgreen;
-    border-radius: 10%;
-    width: 10%;
-    height: 7%; 
-    margin-top: 1px;
-    font-size:16px;
-    font-weight:700;
-  }
-  
-  .footer{
-    margin: 0;
-    padding: 0;
+    .footer{
+    margin: 0px 0px;
+    padding: 0 0 0 0;
     width: 100%;
-    height: 10vh;
-    min-height: 100px; 
-    background-color: #8d6817d0;
-    color: #E5E7E9;
+    height: 8vh;
+    background-color: #e9b819;
+    color: #162c1b;
+    position:static;
   }
   .footer h2{
-    width: 100%;
-    height: 100%;
-    
+    font-size:24px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    text-align: center;
   }
 </style>

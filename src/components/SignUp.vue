@@ -19,10 +19,7 @@
 
                 <input type="text" v-model="user.cedula" placeholder="No. Cédula">
                 <br>
-
-                <input type="text" v-model="create_time" placeholder="">
-                <br>
-
+    
                 <input type="email" v-model="user.email" placeholder="Email">
                 <br>
 
@@ -54,7 +51,6 @@ export default {
                 name: "",
                 last_name: "",
                 cedula: "",
-                create_time: "",
                 email: "",
                 rol: 0
                 },
@@ -67,11 +63,11 @@ export default {
             await this.$apollo.mutate(
                 {
                     mutation: gql`
-                        mutation SignUpUser($userInput: SignUpInput) {
-                            signUpUser(userInput: $userInput) {
-                                refresh
-                                access
-                            }
+                        mutation Mutation($userInput: SignUpInput) {
+                          signUpUser(userInput: $userInput) {
+                            refresh
+                            access
+                          }
                         }
                     `,
                     variables: {
@@ -79,13 +75,13 @@ export default {
                     },
                 })
                 .then((result) => {
-                    let dataSignUp = {
+                    let dataLogIn = {
                         username: this.user.username,
                         token_access: result.data.signUpUser.access,
                         token_refresh: result.data.signUpUser.refresh,
                     };
 
-                    this.$emit("completedSignUp", dataSignUp);
+                    this.$emit("completedSignUp", dataLogIn);
                 })
                 .catch((error) => {
                     console.log(error);

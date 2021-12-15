@@ -23,7 +23,7 @@
 <script>
 import gql from 'graphql-tag';
 export default {
-    name: "LogIn",
+    name: "login",
 
     data: function(){
         return {
@@ -39,11 +39,11 @@ export default {
             await this.$apollo.mutate(
                 {
                     mutation: gql`
-                        mutation LogIn($credentials: CredentialsInput!) {
-                            logIn(credentials: $credentials) {
-                                refresh
-                                access
-                            }
+                        mutation Login($credentials: LoginInput!) {
+                          login(credentials: $credentials) {
+                            refresh
+                            access
+                          }
                         }
                     `,
                     variables: {
@@ -51,13 +51,13 @@ export default {
                     },
                 })
                 .then((result) => {
-                    let dataLogIn = {
+                    let datalogin = {
                         username: this.user.username,
-                        token_access: result.data.logIn.access,
-                        token_refresh: result.data.logIn.refresh,
+                        token_access: result.data.login.access,
+                        token_refresh: result.data.login.refresh,
                     }
                     
-                    this.$emit('completedLogIn', dataLogIn)
+                    this.$emit('completedLogIn', datalogin)
                 })
                 .catch((error) => {    
                     console.log(error);                

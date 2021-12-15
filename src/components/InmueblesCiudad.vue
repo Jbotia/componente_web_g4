@@ -1,38 +1,45 @@
+
 <template>
-    <div class="busqueda_por_ciudad">
-        <div class="title"> <h3>Quiero hospedarme en:</h3> 
-            <span>En: {{ciudadSeleccionada}} </span>
-            <select v-model="ciudadSeleccionada">  <!--no he podido hacer que la ciudad seleccionada aquí, entre en la variable del query abajo "inmuebleByCiudad"-->
-                <option disabled value="">Seleccionar</option>
-                <option>Barranquilla</option>
-                <option>Bogota</option>
-                <option>Cali</option>
-                <option>Cúcuta</option>
-                <option>Leticia</option>
-                <option>Montería</option>
-                <option>Tunja</option>          
-            </select>
-        </div>   
+    <div class="busqueda_por_ciudad">          
         
         <div class="container">
-            <div  v-for="inmueble in inmuebleByCiudad" :key="inmueble.id">
-                <div class="thumbnail">
-                    <button v-on:click="loadLogIn"> Reservar </button>
-                    <img src="assets/Untitled.png" alt="" />
-                    <p>{{ inmueble.descripcion }}</p>
-                </div>
+            <div class="title">  
+                <p>Quiero hospedarme en...</p>
+                <select v-model="ciudadSeleccionada"> 
+                    <option disabled value="">Seleccionar</option>
+                    <option>Barranquilla</option>
+                    <option>Bogota</option>
+                    <option>Cali</option>
+                    <option>Cúcuta</option>
+                    <option>Leticia</option>
+                    <option>Medellin</option>
+                    <option>Montería</option>
+                    <option>Tunja</option>
 
-                <div class="descripcion">
-                    <ul>
-                        <li>{{ inmueble.precioDia  }}</li>
-                        <li>{{ inmueble.tipo  }} en {{ i.ubicacionBarrio }}</li>
-                        <li>{{ inmueble.habitaciones }}</li>
-                        <li>{{ inmueble.numeroBanios }}</li>
-                        <li>{{ inmueble.dimension }}</li>
+                </select>
+            </div>            
+          
+            <div class= "card" v-for="inmueble in inmuebleByCity" :key="inmueble.id">
+                <div class="inner">
+                    <div class="thumbnail">
+                        <img src="../assets/fotoPlaceholder.jpg" alt="" style="width:300px;height:200px;">                        
+                    </div>
 
-                    </ul> 
-                </div>             
-            </div>                    
+                    <div class="descripcion">
+                        
+                        <h1>{{ inmueble.precioDia  }}</h1>
+                        <p>{{ inmueble.descripcion }}</p>
+                        <p>{{ inmueble.tipoInmueble  }} en {{ inmueble.ubicacionBarrio }}</p>
+                        <p>{{ inmueble.ubicacionCiudad }}</p>
+                        <p>{{ inmueble.habitaciones }}</p>
+                        <p>{{ inmueble.numeroBanios }}</p>
+                        <p>{{ inmueble.dimension }}</p>
+
+                        <button v-on:click="componentes.logIn"> Reservar </button>
+                         
+                    </div>             
+                </div> 
+            </div>                   
         </div> 
     </div>  
 </template>
@@ -41,18 +48,18 @@
 import gql from "graphql-tag"
 
 export default{
-    name: "InmuebleByCiudad",
+    name: "InmuebleByCity",
 
     data: function(){
         return{
-            ciudadSeleccionada:"", //aquí debería entrar el select de arriba, creo, o el input si se hace con form
-            inmuebleByCiudad: [],
+            ciudadSeleccionada:"",
+            inmuebleByCity: [],
         }
     },
 
     
     apollo: {
-        inmuebleByCiudad: {
+        inmuebleByCity: {
             query: gql`
                 query Query($city: String!) {
                     inmuebleByCity(city: $city)  {
@@ -72,7 +79,7 @@ export default{
             `,
             variables() {
                 return{
-                    city: this.ciudadSeleccionada, //y aquí
+                    city: this.ciudadSeleccionada,
                 }
             }
         }
@@ -81,53 +88,73 @@ export default{
 </script>
 
 <style>
-    .container {
-        margin-left:50vmin;
-        width: 50%;
-        background-color: rgba(241, 154, 40, 0.76);
-        position:absolute; 
-        border: 10px solid green;
-        padding: 25px;
+    
+    .card {
+        background-color:transparent;
+        height: 300px;
+        width:700px;
+        border: 6px solid  #44996a; 
+        perspective: 1000px;
+        margin-left: 20%;
+        margin-top:5px;
     }
-    .thumbnail {
+
+    .inner {
         position: relative;
-        width: 45%;
-        height: 100%;
-        float: left;
-        font-weight: 700;
-    }
-    .thumbnail img {
         width: 100%;
-        height: auto;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
     }
-    .thumbnail button {
+
+    .card:hover .inner {
+        transform: rotateY(180deg);
+    }
+
+    .thumbnail, .description {
         position: absolute;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        background-color: rgb(67, 243, 61);
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
+        width: 700px;
+        height: 260px;
+        backface-visibility: hidden;
     }
+    .thumbnail {       
+        background-color: #3fe085;
+        color: #44996a;
+        line-height: 1;
+        font-weight: 800;  
+        font-size: 20px; 
+    }
+
     .descripcion {
-        width: 50%;
-        float:right;
-        font-weight: 700;
+        background-color: transparent;
+        color: white;
+        transform: rotateY(180deg);
+        line-height: 0.7;
+        font-size: 20px;
     }
-    .title {    
-        margin-left:50vmin;
-        width: 55%;
-        margin-top: 80px;
-        color: rgb(182, 178, 178);    
-        font-family:cursive;
-        position:relative;
-        display: flex;
-        justify-content:space-around;
-        align-items:center;
+
+    .descripcion button {
+        color:#162c1b;
+        background: #e9b819;
+        border: #E5E7E9;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }  
+
+    .descripcion button:hover{
+        color: black;
+        background: #e9b819;
+        border: 3px solid #E5E7E9;
+        border-radius: 5px;
+        font-size:20;
+    } 
+
+    .title p {
+        font-weight: 800;
+        font-size: 25px;
+        margin:0px 0px;
     }
+    
 </style>
+
