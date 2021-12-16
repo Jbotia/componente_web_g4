@@ -27,14 +27,17 @@
 
                     <div class="descripcion">
                         
-                        <h1>{{ inmueble.precioDia  }}</h1>
-                        <p>{{ inmueble.descripcion }}</p>
-                        <p>{{ inmueble.tipoInmueble  }} en {{ inmueble.ubicacionBarrio }}</p>
-                        <p>{{ inmueble.ubicacionCiudad }}</p>
-                        <p>{{ inmueble.habitaciones }}</p>
-                        <p>{{ inmueble.numeroBanios }}</p>
-                        <p>{{ inmueble.dimension }}</p>
-
+                        <h1>${{ inmueble.precioDia  }}/día</h1> 
+                        <br>                   
+                        <p>{{ inmueble.tipoInmueble  }} ubicado(a) en {{ inmueble.ubicacionBarrio }}
+                        en la ciudad de {{ inmueble.ubicacionCiudad }}.</p>
+                        <p>Consta de:
+                        {{ inmueble.habitaciones }} habitaciones, 
+                        {{ inmueble.numeroBanios }} baños, 
+                        y tiene un área de {{ inmueble.dimension }}m2.</p>
+                        <p>Destacado: {{ inmueble.descripcion }}</p>
+                        <br>
+                        <br>
                         <button v-on:click="componentes.logIn"> Reservar </button>
                          
                     </div>             
@@ -46,18 +49,14 @@
 
 <script>
 import gql from "graphql-tag"
-
 export default{
     name: "InmuebleByCity",
-
     data: function(){
         return{
             ciudadSeleccionada:"",
             inmuebleByCity: [],
         }
-    },
-
-    
+    },    
     apollo: {
         inmuebleByCity: {
             query: gql`
@@ -128,7 +127,7 @@ export default{
 
     .descripcion {
         background-color: transparent;
-        color: white;
+        color:whitesmoke;
         transform: rotateY(180deg);
         line-height: 0.7;
         font-size: 20px;

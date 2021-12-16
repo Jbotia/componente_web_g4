@@ -1,8 +1,8 @@
 <template>
-    <div id="MisReservas">
-        <h1>Mis Reservas</h1>
-        
+    <div id="MisReservas">    
         <div class="tablaReservas">
+          
+          <div class="container-table">
             <table>
                 <tr>
                     <th>Fecha</th>
@@ -19,50 +19,49 @@
                     <td>{{ reserva.precioTotal }}</td>
                 </tr>
             </table>
+          </div>
         </div>
     </div>        
 </template>
 
 <script>
-    import gql from "graphql-tag"
-
-    export default{
-        name: "ReservaByUser",
-
-        data: function (){
-            return{
-                username: localStorage.getItem("username") || "none",
-                reservaByUser: [],
-            }
-        },
-        apollo: {
-            reservaByUser: {
-                query: gql`
-                    query Query($username: String!) {
-                      reservaByUser(username: $username) {
-                        id
-                        idInmueble
-                        propietario
-                        inquilino
-                        fechaInicio
-                        fechaFin
-                        precioTotal
-                        fechaReserva
-                      }
-                    }
-                `,
-                variables() {
-                    return{
-                        username: this.username,
-                    };
-                },
-            },
-        },
-
-        created: async function(){
-            await this.$apollo.queries.reservaByUser.refetch();
+import gql from "graphql-tag"
+export default{
+  name: "ReservaByUser",
+  data: function (){    
+      return{
+        username: localStorage.getItem("username")|| "none",
+        reservaByUser: [],          
+      }    
+  },
+  apollo: {
+    reservaByUser: {
+      
+      query: gql`
+        query ReservaByUser($username: String!) {
+          reservaByUser(username: $username) {
+            id
+            idInmueble
+            propietario
+            inquilino
+            fechaInicio
+            fechaFin
+            precioTotal
+            fechaReserva
+          }
         }
-    };
+      `,
+      variables() {         
+        return{          
+          username: this.username
+        };
+      },
+    },
+  },
+  /*created: function () {    
+    this.$apollo.query.reservaByUser.refetch();
+  }*/ 
+};
 </script>
 
 <style>
@@ -73,6 +72,13 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+}
+#Historial .container-table{
+    width:50%;
+    
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #MisReservas .tablaReservas{

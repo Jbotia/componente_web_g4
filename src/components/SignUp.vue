@@ -1,6 +1,9 @@
 <template>
 
     <div class="signUp_user">
+        <div class="checkbox">
+
+        </div>
         <div class="container_signUp_user">
             <h2>Registrarse</h2>
 
@@ -23,7 +26,7 @@
                 <input type="email" v-model="user.email" placeholder="Email">
                 <br>
 
-                <input type="checkbox" v-model="user.rol" placeholder="Soy dueño">
+                <input type="text" v-model="user.rol" placeholder="Rol">
                 <br>
 
                 <button type="submit">Registrarse</button>
@@ -52,7 +55,7 @@ export default {
                 last_name: "",
                 cedula: "",
                 email: "",
-                rol: 0
+                rol: 2,
                 },
             };
         },
